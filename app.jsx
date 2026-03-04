@@ -1,3 +1,6 @@
+
+
+
 const courseTitle = "React Development Bootcamp";
 
 function App() {
@@ -6,7 +9,7 @@ function App() {
   
   const student = {
     name: "mohmamed amine aloui",
-    age: 25,
+    age: 21,
     track: "Frontend Development"
   };
   
@@ -69,7 +72,7 @@ const stories = [
   }
 ];
 
-function App() {
+function App2() {
   return (
     <div>
       <h1>Hacker News Stories</h1>
