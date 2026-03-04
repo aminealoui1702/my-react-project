@@ -121,7 +121,7 @@ function List() {
   );
 }
 
-function App() {
+function App2() {
   return (
     <div>
       <Header />
