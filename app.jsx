@@ -2,11 +2,11 @@ const courseTitle = "React Development Bootcamp";
 
 function App() {
   
-  const studentName = "John Doe";
+  const studentName = "Mohamed Amine Aloui";
   
   const student = {
-    name: "John Doe",
-    age: 25,
+    name: "Mohamed Amine Aloui",
+    age: 21,
     track: "Frontend Development"
   };
   
