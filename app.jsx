@@ -81,54 +81,56 @@ const stories = [
   }
 ];
 
-function Header() {
-  return (
-    <header>
-      <h1>Hacker News Reader</h1>
-    </header>
-  );
-}
+const Header = () => (
+  <header>
+    <h1>Hacker News Reader</h1>
+  </header>
+);
 
-function Search() {
+const Search = () => {
+  const handleChange = (event) => {
+    console.log("Input changed:", event);
+    console.log("Input value:", event.target.value);
+  };
+
   return (
     <div>
       <label htmlFor="search">Search Stories: </label>
-      <input id="search" type="text" placeholder="Search..." />
+      <input 
+        id="search" 
+        type="text" 
+        placeholder="Search..." 
+        onChange={handleChange}
+      />
     </div>
   );
-}
+};
 
-function List() {
-  return (
-    <div>
-      {stories.map(function(story) {
-        return (
-          <div key={story.objectID}>
-            <h3>
-              <a href={story.url} target="_blank" rel="noopener noreferrer">
-                {story.title}
-              </a>
-            </h3>
-            <p>
-              <span>Author: {story.author}</span> | 
-              <span> Points: {story.points}</span> | 
-              <span> Comments: {story.num_comments}</span>
-            </p>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+const List = () => (
+  <div>
+    {stories.map((story) => (
+      <div key={story.objectID}>
+        <h3>
+          <a href={story.url} target="_blank" rel="noopener noreferrer">
+            {story.title}
+          </a>
+        </h3>
+        <p>
+          <span>Author: {story.author}</span> | 
+          <span> Points: {story.points}</span> | 
+          <span> Comments: {story.num_comments}</span>
+        </p>
+      </div>
+    ))}
+  </div>
+);
 
-function App2() {
-  return (
-    <div>
-      <Header />
-      <Search />
-      <List />
-    </div>
-  );
-}
+const App2 = () => (
+  <div>
+    <Header />
+    <Search />
+    <List />
+  </div>
+);
 
-export default App;
+export default App2;
