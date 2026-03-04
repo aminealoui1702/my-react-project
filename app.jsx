@@ -2,11 +2,11 @@ const courseTitle = "React Development Bootcamp";
 
 function App() {
   
-  const studentName = "Mohamed Amine Aloui";
+  const studentName = "mohamed amine aloui";
   
   const student = {
-    name: "Mohamed Amine Aloui",
-    age: 21,
+    name: "mohmamed amine aloui",
+    age: 25,
     track: "Frontend Development"
   };
   
@@ -50,5 +50,51 @@ function App() {
     </div>
   );
 }
+const stories = [
+  {
+    objectID: 1,
+    title: "React Hooks Explained",
+    url: "https://react.dev/hooks",
+    author: "dan_abramov",
+    points: 342,
+    num_comments: 56
+  },
+  {
+    objectID: 2,
+    title: "CSS Grid vs Flexbox",
+    url: "https://css-tricks.com/grid-vs-flexbox",
+    author: "css_expert",
+    points: 156,
+    num_comments: 43
+  }
+];
+
+function App() {
+  return (
+    <div>
+      <h1>Hacker News Stories</h1>
+      
+      {stories.map(function(story) {
+        return (
+          <div key={story.objectID}>
+            <h3>
+              <a href={story.url} target="_blank" rel="noopener noreferrer">
+                {story.title}
+              </a>
+            </h3>
+            <p>
+              <span>Author: {story.author}</span> | 
+              <span> Points: {story.points}</span> | 
+              <span> Comments: {story.num_comments}</span>
+            </p>
+          </div>
+        );
+      })}
+      
+    </div>
+  );
+}
+
+
 
 export default App;
