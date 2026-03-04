@@ -1,35 +1,118 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+const courseTitle = "React Development Bootcamp";
+const stories = [
+  {
+    objectID: 1,
+    title: "React Hooks Explained",
+    url: "https://react.dev/hooks",
+    author: "dan_abramov",
+    points: 342,
+    num_comments: 56
+  },
+  {
+    objectID: 2,
+    title: "Understanding the Virtual DOM",
+    url: "https://react.dev/virtual-dom",
+    author: "react_team",
+    points: 178,
+    num_comments: 24
+  },
+  {
+    objectID: 3,
+    title: "CSS Grid vs Flexbox",
+    url: "https://css-tricks.com/grid-vs-flexbox",
+    author: "css_expert",
+    points: 156,
+    num_comments: 43
+  }
+];
 
-function App() {
-  const [count, setCount] = useState(0)
+const Header = () => (
+  <header>
+    <h1>Hacker News Reader</h1>
+  </header>
+);
+
+const Search = () => {
+  const handleChange = (event) => {
+    console.log("Input changed:", event);
+    console.log("Input value:", event.target.value);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <div>
+      <label htmlFor="search">Search Stories: </label>
+      <input 
+        id="search" 
+        type="text" 
+        placeholder="Search..." 
+        onChange={handleChange}
+      />
+    </div>
+  );
+};
+
+const List = () => (
+  <div>
+    {stories.map((story) => (
+      <div key={story.objectID}>
+        <h3>
+          <a href={story.url} target="_blank" rel="noopener noreferrer">
+            {story.title}
+          </a>
+        </h3>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          <span>Author: {story.author}</span> | 
+          <span> Points: {story.points}</span> | 
+          <span> Comments: {story.num_comments}</span>
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    ))}
+  </div>
+);
+const App = () => {
+  const studentName = "mohamed amine aloui";
+  
+  const student = {
+    name: "mohmamed amine aloui",
+    age: 21,
+    track: "Frontend Development"
+  };
+  
+  const sayHello = () => "Hello from React!";
+  
+  const welcomeMessage = () => "Welcome " + studentName + "!";
+  
+  const getStudentInfo = () => student.name + " is " + student.age + " years old";
+  
+  return (
+    <div>
+      <h1>My React Learning Lab</h1>
+      
+      <p>Student name: {studentName}</p>
+      <p>Course name: {courseTitle}</p>
+      <p>Welcome to {courseTitle}, {studentName}!</p>
+      
+      <form>
+        <label htmlFor="nameInput">Enter your name:</label>
+        <input type="text" id="nameInput" />
+      </form>
+      
+      <h3>Student Information:</h3>
+      <p>Name: {student.name}</p>
+      <p>Age: {student.age}</p>
+      <p>Track: {student.track}</p>
+      
+      <h3>Function Messages:</h3>
+      <p>{sayHello()}</p>
+      <p>{welcomeMessage()}</p>
+      <p>{getStudentInfo()}</p>
+      
+      <hr />
+      <Header />
+      <Search />
+      <List />
+    </div>
+  );
+};
 
-export default App
+export default App;
