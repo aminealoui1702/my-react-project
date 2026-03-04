@@ -1,58 +1,5 @@
 
-
-
 const courseTitle = "React Development Bootcamp";
-
-function App() {
-  
-  const studentName = "mohamed amine aloui";
-  
-  const student = {
-    name: "mohmamed amine aloui",
-    age: 21,
-    track: "Frontend Development"
-  };
-  
-  function sayHello() {
-    return "Hello from React!";
-  }
-  
-  function welcomeMessage() {
-    return "Welcome " + studentName + "!";
-  }
-  
-  function getStudentInfo() {
-    return student.name + " is " + student.age + " years old";
-  }
-  
-  return (
-    <div>
-      <h1>My React Learning Lab</h1>
-      
-      <p>Student name: {studentName}</p>
-      
-      <p>Course name: {courseTitle}</p>
-      
-      <p>Welcome to {courseTitle}, {studentName}!</p>
-      
-      <form>
-        <label htmlFor="nameInput">Enter your name:</label>
-        <input type="text" id="nameInput" />
-      </form>
-      
-      <h3>Student Information:</h3>
-      <p>Name: {student.name}</p>
-      <p>Age: {student.age}</p>
-      <p>Track: {student.track}</p>
-      
-      <h3>Function Messages:</h3>
-      <p>{sayHello()}</p>
-      <p>{welcomeMessage()}</p>
-      <p>{getStudentInfo()}</p>
-      
-    </div>
-  );
-}
 const stories = [
   {
     objectID: 1,
@@ -62,7 +9,6 @@ const stories = [
     points: 342,
     num_comments: 56
   },
-
   {
     objectID: 2,
     title: "Understanding the Virtual DOM",
@@ -124,13 +70,50 @@ const List = () => (
     ))}
   </div>
 );
+const App = () => {
+  const studentName = "mohamed amine aloui";
+  
+  const student = {
+    name: "mohmamed amine aloui",
+    age: 21,
+    track: "Frontend Development"
+  };
+  
+  const sayHello = () => "Hello from React!";
+  
+  const welcomeMessage = () => "Welcome " + studentName + "!";
+  
+  const getStudentInfo = () => student.name + " is " + student.age + " years old";
+  
+  return (
+    <div>
+      <h1>My React Learning Lab</h1>
+      
+      <p>Student name: {studentName}</p>
+      <p>Course name: {courseTitle}</p>
+      <p>Welcome to {courseTitle}, {studentName}!</p>
+      
+      <form>
+        <label htmlFor="nameInput">Enter your name:</label>
+        <input type="text" id="nameInput" />
+      </form>
+      
+      <h3>Student Information:</h3>
+      <p>Name: {student.name}</p>
+      <p>Age: {student.age}</p>
+      <p>Track: {student.track}</p>
+      
+      <h3>Function Messages:</h3>
+      <p>{sayHello()}</p>
+      <p>{welcomeMessage()}</p>
+      <p>{getStudentInfo()}</p>
+      
+      <hr />
+      <Header />
+      <Search />
+      <List />
+    </div>
+  );
+};
 
-const App2 = () => (
-  <div>
-    <Header />
-    <Search />
-    <List />
-  </div>
-);
-
-export default App2;
+export default App;
