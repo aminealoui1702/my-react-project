@@ -62,8 +62,17 @@ const stories = [
     points: 342,
     num_comments: 56
   },
+
   {
     objectID: 2,
+    title: "Understanding the Virtual DOM",
+    url: "https://react.dev/virtual-dom",
+    author: "react_team",
+    points: 178,
+    num_comments: 24
+  },
+  {
+    objectID: 3,
     title: "CSS Grid vs Flexbox",
     url: "https://css-tricks.com/grid-vs-flexbox",
     author: "css_expert",
@@ -72,11 +81,26 @@ const stories = [
   }
 ];
 
-function App2() {
+function Header() {
+  return (
+    <header>
+      <h1>Hacker News Reader</h1>
+    </header>
+  );
+}
+
+function Search() {
   return (
     <div>
-      <h1>Hacker News Stories</h1>
-      
+      <label htmlFor="search">Search Stories: </label>
+      <input id="search" type="text" placeholder="Search..." />
+    </div>
+  );
+}
+
+function List() {
+  return (
+    <div>
       {stories.map(function(story) {
         return (
           <div key={story.objectID}>
@@ -93,11 +117,18 @@ function App2() {
           </div>
         );
       })}
-      
     </div>
   );
 }
 
-
+function App() {
+  return (
+    <div>
+      <Header />
+      <Search />
+      <List />
+    </div>
+  );
+}
 
 export default App;
