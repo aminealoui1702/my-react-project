@@ -1,30 +1,21 @@
+import React, { useState } from 'react';
+
 const courseTitle = "React Development Bootcamp";
-const stories = [
-  {
-    objectID: 1,
-    title: "React Hooks Explained",
-    url: "https://react.dev/hooks",
-    author: "dan_abramov",
-    points: 342,
-    num_comments: 56
-  },
-  {
-    objectID: 2,
-    title: "Understanding the Virtual DOM",
-    url: "https://react.dev/virtual-dom",
-    author: "react_team",
-    points: 178,
-    num_comments: 24
-  },
-  {
-    objectID: 3,
-    title: "CSS Grid vs Flexbox",
-    url: "https://css-tricks.com/grid-vs-flexbox",
-    author: "css_expert",
-    points: 156,
-    num_comments: 43
-  }
-];
+
+const Item = ({ story }) => (
+  <div>
+    <h3>
+      <a href={story.url} target="_blank" rel="noopener noreferrer">
+        {story.title}
+      </a>
+    </h3>
+    <p>
+      <span>Author: {story.author}</span> | 
+      <span> Points: {story.points}</span> | 
+      <span> Comments: {story.num_comments}</span>
+    </p>
+  </div>
+);
 
 const Header = () => (
   <header>
@@ -32,10 +23,11 @@ const Header = () => (
   </header>
 );
 
-const Search = () => {
+const Search = ({ onSearch }) => {
   const handleChange = (event) => {
     console.log("Input changed:", event);
     console.log("Input value:", event.target.value);
+    onSearch(event.target.value);
   };
 
   return (
@@ -51,25 +43,57 @@ const Search = () => {
   );
 };
 
-const List = () => (
-  <div>
-    {stories.map((story) => (
-      <div key={story.objectID}>
-        <h3>
-          <a href={story.url} target="_blank" rel="noopener noreferrer">
-            {story.title}
-          </a>
-        </h3>
-        <p>
-          <span>Author: {story.author}</span> | 
-          <span> Points: {story.points}</span> | 
-          <span> Comments: {story.num_comments}</span>
-        </p>
-      </div>
-    ))}
-  </div>
-);
+const List = ({ stories }) => {
+  console.log("List re-rendered");
+  return (
+    <div>
+      {stories.map((story) => (
+        <Item key={story.objectID} story={story} />
+      ))}
+    </div>
+  );
+};
+
 const App = () => {
+  console.log("App re-rendered");
+  
+  const [stories] = useState([
+    {
+      objectID: 1,
+      title: "React Hooks Explained",
+      url: "https://react.dev/hooks",
+      author: "dan_abramov",
+      points: 342,
+      num_comments: 56
+    },
+    {
+      objectID: 2,
+      title: "Understanding the Virtual DOM",
+      url: "https://react.dev/virtual-dom",
+      author: "react_team",
+      points: 178,
+      num_comments: 24
+    },
+    {
+      objectID: 3,
+      title: "CSS Grid vs Flexbox",
+      url: "https://css-tricks.com/grid-vs-flexbox",
+      author: "css_expert",
+      points: 156,
+      num_comments: 43
+    }
+  ]);
+  
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+  };
+  
+  const filteredStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
   const studentName = "mohamed amine aloui";
   
   const student = {
@@ -79,9 +103,7 @@ const App = () => {
   };
   
   const sayHello = () => "Hello from React!";
-  
   const welcomeMessage = () => "Welcome " + studentName + "!";
-  
   const getStudentInfo = () => student.name + " is " + student.age + " years old";
   
   return (
@@ -109,8 +131,8 @@ const App = () => {
       
       <hr />
       <Header />
-      <Search />
-      <List />
+      <Search onSearch={handleSearch} />
+      <List stories={filteredStories} />
     </div>
   );
 };
