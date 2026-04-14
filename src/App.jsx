@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const courseTitle = "React Development Bootcamp";
 
@@ -23,11 +23,10 @@ const Header = () => (
   </header>
 );
 
-const Search = ({ onSearch }) => {
+const Search = ({ searchTerm, onSearch }) => {
   const handleChange = (event) => {
-    console.log("Input changed:", event);
-    console.log("Input value:", event.target.value);
-    onSearch(event.target.value);
+    const value = event.target.value;
+    onSearch(value);
   };
 
   return (
@@ -37,26 +36,22 @@ const Search = ({ onSearch }) => {
         id="search" 
         type="text" 
         placeholder="Search..." 
+        value={searchTerm}
         onChange={handleChange}
       />
     </div>
   );
 };
 
-const List = ({ stories }) => {
-  console.log("List re-rendered");
-  return (
-    <div>
-      {stories.map((story) => (
-        <Item key={story.objectID} story={story} />
-      ))}
-    </div>
-  );
-};
+const List = ({ stories }) => (
+  <div>
+    {stories.map((story) => (
+      <Item key={story.objectID} story={story} />
+    ))}
+  </div>
+);
 
 const App = () => {
-  console.log("App re-rendered");
-  
   const [stories] = useState([
     {
       objectID: 1,
@@ -84,7 +79,16 @@ const App = () => {
     }
   ]);
   
-  const [searchTerm, setSearchTerm] = useState('');
+  const getInitialSearchTerm = () => {
+    const savedSearchTerm = localStorage.getItem("search");
+    return savedSearchTerm || '';
+  };
+  
+  const [searchTerm, setSearchTerm] = useState(getInitialSearchTerm);
+  
+  useEffect(() => {
+    localStorage.setItem("search", searchTerm);
+  }, [searchTerm]);
   
   const handleSearch = (value) => {
     setSearchTerm(value);
@@ -131,7 +135,7 @@ const App = () => {
       
       <hr />
       <Header />
-      <Search onSearch={handleSearch} />
+      <Search searchTerm={searchTerm} onSearch={handleSearch} />
       <List stories={filteredStories} />
     </div>
   );
