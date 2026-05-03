@@ -2,7 +2,25 @@ import React, { useState, useEffect } from 'react';
 
 const courseTitle = "React Development Bootcamp";
 
-const Item = ({ story }) => (
+const InputWithLabel = ({ id, type = "text", value, onInputChange, children }) => (
+  <div>
+    <label htmlFor={id}>{children}</label>
+    <input 
+      id={id}
+      type={type}
+      value={value}
+      onChange={onInputChange}
+    />
+  </div>
+);
+
+const Header = () => (
+  <header>
+    <h1>Hacker News Reader</h1>
+  </header>
+);
+
+const Item = ({ story, onRemoveItem }) => (
   <div>
     <h3>
       <a href={story.url} target="_blank" rel="noopener noreferrer">
@@ -14,45 +32,22 @@ const Item = ({ story }) => (
       <span> Points: {story.points}</span> | 
       <span> Comments: {story.num_comments}</span>
     </p>
+    <button onClick={() => onRemoveItem(story)}>
+      Dismiss
+    </button>
   </div>
 );
 
-const Header = () => (
-  <header>
-    <h1>Hacker News Reader</h1>
-  </header>
-);
-
-const Search = ({ searchTerm, onSearch }) => {
-  const handleChange = (event) => {
-    const value = event.target.value;
-    onSearch(value);
-  };
-
-  return (
-    <div>
-      <label htmlFor="search">Search Stories: </label>
-      <input 
-        id="search" 
-        type="text" 
-        placeholder="Search..." 
-        value={searchTerm}
-        onChange={handleChange}
-      />
-    </div>
-  );
-};
-
-const List = ({ stories }) => (
+const List = ({ stories, onRemoveItem }) => (
   <div>
     {stories.map((story) => (
-      <Item key={story.objectID} story={story} />
+      <Item key={story.objectID} story={story} onRemoveItem={onRemoveItem} />
     ))}
   </div>
 );
 
 const App = () => {
-  const [stories] = useState([
+  const initialStories = [
     {
       objectID: 1,
       title: "React Hooks Explained",
@@ -77,7 +72,9 @@ const App = () => {
       points: 156,
       num_comments: 43
     }
-  ]);
+  ];
+  
+  const [stories, setStories] = useState(initialStories);
   
   const getInitialSearchTerm = () => {
     const savedSearchTerm = localStorage.getItem("search");
@@ -90,8 +87,12 @@ const App = () => {
     localStorage.setItem("search", searchTerm);
   }, [searchTerm]);
   
-  const handleSearch = (value) => {
-    setSearchTerm(value);
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+  
+  const handleRemoveStory = (storyToRemove) => {
+    setStories(stories.filter((story) => story.objectID !== storyToRemove.objectID));
   };
   
   const filteredStories = stories.filter((story) =>
@@ -101,7 +102,7 @@ const App = () => {
   const studentName = "mohamed amine aloui";
   
   const student = {
-    name: "mohmamed amine aloui",
+    name: "mohamed amine aloui",
     age: 21,
     track: "Frontend Development"
   };
@@ -135,8 +136,17 @@ const App = () => {
       
       <hr />
       <Header />
-      <Search searchTerm={searchTerm} onSearch={handleSearch} />
-      <List stories={filteredStories} />
+      
+      <InputWithLabel
+        id="search"
+        type="text"
+        value={searchTerm}
+        onInputChange={handleSearch}
+      >
+        <strong>Search:</strong>
+      </InputWithLabel>
+      
+      <List stories={filteredStories} onRemoveItem={handleRemoveStory} />
     </div>
   );
 };
