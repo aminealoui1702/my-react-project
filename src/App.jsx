@@ -47,6 +47,8 @@ const List = ({ stories, onRemoveItem }) => (
 );
 
 const App = () => {
+  const API_BASE_URL = "https://hn.algolia.com/api/v1/search?query=";
+  
   const initialStories = [
     {
       objectID: 1,
@@ -74,7 +76,7 @@ const App = () => {
     }
   ];
   
-  const [stories, setStories] = useState(initialStories);
+  const [stories, setStories] = useState([]);
   
   const getInitialSearchTerm = () => {
     const savedSearchTerm = localStorage.getItem("search");
@@ -82,6 +84,9 @@ const App = () => {
   };
   
   const [searchTerm, setSearchTerm] = useState(getInitialSearchTerm);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [url, setUrl] = useState("");
   
   useEffect(() => {
     localStorage.setItem("search", searchTerm);
@@ -91,13 +96,37 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
   
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (searchTerm) {
+      setUrl(API_BASE_URL + searchTerm);
+    }
+  };
+  
   const handleRemoveStory = (storyToRemove) => {
     setStories(stories.filter((story) => story.objectID !== storyToRemove.objectID));
   };
   
-  const filteredStories = stories.filter((story) =>
-    story.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    if (!url) return;
+    
+    const fetchStories = async () => {
+      setIsLoading(true);
+      setIsError(false);
+      
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setStories(data.hits || []);
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchStories();
+  }, [url]);
   
   const studentName = "mohamed amine aloui";
   
@@ -137,16 +166,27 @@ const App = () => {
       <hr />
       <Header />
       
-      <InputWithLabel
-        id="search"
-        type="text"
-        value={searchTerm}
-        onInputChange={handleSearch}
-      >
-        <strong>Search:</strong>
-      </InputWithLabel>
+      <form onSubmit={handleSubmit}>
+        <InputWithLabel
+          id="search"
+          type="text"
+          value={searchTerm}
+          onInputChange={handleSearch}
+        >
+          <strong>Search:</strong>
+        </InputWithLabel>
+        <button type="submit" disabled={!searchTerm}>
+          Submit
+        </button>
+      </form>
       
-      <List stories={filteredStories} onRemoveItem={handleRemoveStory} />
+      {isError && <p style={{ color: 'red' }}>Something went wrong. Please try again later.</p>}
+      
+      {isLoading ? (
+        <p>Loading ...</p>
+      ) : (
+        <List stories={stories} onRemoveItem={handleRemoveStory} />
+      )}
     </div>
   );
 };
